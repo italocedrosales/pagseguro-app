@@ -26,20 +26,24 @@ function Home({ navigation }) {
 
   useEffect(() => {
     async function postUser() {
-      const response = await api.get(`/users/italocedrosales`);
+      const jsonValue = await AsyncStorage.getItem('@users');
 
-      const data = {
-        login: response.data.login,
-        avatar: response.data.avatar_url,
-        name: response.data.name,
-        bio: response.data.bio,
-      };
+      if (!jsonValue) {
+        const response = await api.get(`/users/italocedrosales`);
 
-      setRepos([...repos, data]);
+        const data = {
+          login: response.data.login,
+          avatar: response.data.avatar_url,
+          name: response.data.name,
+          bio: response.data.bio,
+        };
+
+        setRepos([...repos, data]);
+      }
     }
 
     postUser();
-  }, []);
+  }, [repos]);
 
   useEffect(() => {
     async function getUsers() {
@@ -91,7 +95,7 @@ function Home({ navigation }) {
         <Input
           autoCorrect={false}
           autoCaptalize="none"
-          placeholder="Adicionar usuário"
+          placeholder="Adicionar usuário..."
           value={newUser}
           onChangeText={text => setNewUser(text)}
           returnKeyType="send"
