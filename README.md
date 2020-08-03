@@ -1,1 +1,1 @@
-# Pagseguri App
+# Pagseguro App
